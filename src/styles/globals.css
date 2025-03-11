@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: light dark;
+  }
+
+  body {
+    @apply flex items-center justify-center min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-200;
+  }
+}
+
+/* Custom Theme Colors */
+:root {
+  --midnight-blue: #1E3A5F;
+  --soothing-lavender: #A68ACB;
+  --sleepy-moon-yellow: #F7D08A;
+}
+
+.dark {
+  --bg-primary: var(--midnight-blue);
+  --text-primary: var(--sleepy-moon-yellow);
+}
+
+.light {
+  --bg-primary: var(--sleepy-moon-yellow);
+  --text-primary: var(--midnight-blue);
+}
+
+.bg-primary {
+  background-color: var(--bg-primary);
+}
+
+.text-primary {
+  color: var(--text-primary);
+}
