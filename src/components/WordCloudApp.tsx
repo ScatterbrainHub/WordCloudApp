@@ -1,83 +1,102 @@
 import { useEffect, useState } from "react";
-import { db } from "../lib/firebase";
-import { collection, addDoc, onSnapshot } from "firebase/firestore";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Card } from "../components/ui/card";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, onSnapshot } from "firebase/firestore";
+import "../styles/globals.css";
+import firebaseConfig from "../lib/firebaseConfig";
+
+// Initialize Firebase app and Firestore database
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 export default function WordCloudApp() {
-  const [word, setWord] = useState("");
-  const [words, setWords] = useState<[string, number][]>([]);
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+    // State variables
+    const [word, setWord] = useState(""); // Stores user input
+    const [words, setWords] = useState<[string, number][]>([]); // Stores words from Firestore
+    const [theme, setTheme] = useState(localStorage.getItem("theme") || "light"); // Manages light/dark theme
+    const [WordCloud, setWordCloud] = useState<null | ((element: HTMLElement, options: any) => void)>(null);
 
-  // Handle Theme Toggle
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+    // Effect to handle dark mode theme persistence
+    useEffect(() => {
+        document.documentElement.classList.toggle("dark", theme === "dark");
+        localStorage.setItem("theme", theme);
+    }, [theme]);
 
-  // Fetch Words from Firestore
-  useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "words"), (snapshot) => {
-      let wordCounts: Record<string, number> = {};
-      snapshot.forEach((doc) => {
-        let text = doc.data().text;
-        wordCounts[text] = (wordCounts[text] || 0) + 1;
-      });
-      setWords(Object.entries(wordCounts));
-    });
+    // Effect to fetch words from Firestore and update state
+    useEffect(() => {
+        const unsubscribe = onSnapshot(collection(db, "words"), (snapshot) => {
+            let wordCounts: Record<string, number> = {};
+            snapshot.forEach((doc) => {
+                let text = doc.data().text;
+                wordCounts[text] = (wordCounts[text] || 0) + 1;
+            });
+            setWords(Object.entries(wordCounts));
+        });
+        return () => unsubscribe(); // Cleanup function to prevent memory leaks
+    }, []);
 
-    return () => unsubscribe();
-  }, []);
+    // Dynamically import WordCloud only in the browser (fixes SSR issues)
+    useEffect(() => {
+        import("wordcloud")
+            .then((mod) => {
+                setWordCloud(() => mod.default);
+            })
+            .catch((err) => console.error("Failed to load WordCloud:", err));
+    }, []);
 
-  // Submit Word to Firestore
-  const submitWord = async () => {
-    if (word.trim()) {
-      await addDoc(collection(db, "words"), { text: word.trim() });
-      setWord("");
-    }
-  };
+    // Effect to render WordCloud when words update
+    useEffect(() => {
+        if (WordCloud && words.length > 0) {
+            const canvas = document.getElementById("wordCloud") as HTMLCanvasElement;
+            WordCloud(canvas, { list: words });
+        }
+    }, [WordCloud, words]);
 
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-200">
-      <div className="flex flex-col items-center p-6 w-full max-w-md bg-white dark:bg-gray-900 shadow-lg rounded-lg">
-        {/* Header */}
-        <h1 className="text-xl font-bold">Enter 'Sleep' in Your Language</h1>
+    // Function to handle word submission
+    const submitWord = async () => {
+        if (word.trim()) {
+            await addDoc(collection(db, "words"), { text: word.trim() });
+            setWord(""); // Clear input field after submission
+        }
+    };
 
-        {/* Theme Toggle */}
-        <Button
-          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-          className="mt-2 bg-sleepy-moon-yellow dark:bg-midnight-blue text-gray-900 dark:text-gray-200"
-        >
-          {theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}
-        </Button>
+    // Handle enter key press
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            submitWord();
+        }
+    };
 
-        {/* Input & Submit */}
-        <Card className="w-full p-4 mt-4">
-          <Input
-            type="text"
-            value={word}
-            onChange={(e) => setWord(e.target.value)}
-            placeholder="Type here..."
-            className="w-full border dark:border-gray-700"
-          />
-          <Button onClick={submitWord} className="w-full mt-2 bg-soothing-lavender text-white">
-            Submit
-          </Button>
-        </Card>
+    return (
+        <div className="flex flex-col items-center p-4 min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-200">
+            {/* Header section with title and theme toggle button */}
+            <div className="flex justify-between w-full max-w-md">
+                <h1 className="text-xl font-bold">Enter 'Sleep' in Your Language</h1>
+                <button
+                    onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+                    className="px-3 py-1 rounded bg-sleepy-moon-yellow dark:bg-midnight-blue text-gray-900 dark:text-gray-200"
+                >
+                    {theme === "light" ? "🌙 Dark" : "☀️ Light"}
+                </button>
+            </div>
 
-        {/* Word Cloud Preview */}
-        <div className="mt-4 w-full">
-          <h2 className="text-lg font-semibold">Words Submitted:</h2>
-          <ul className="list-disc pl-5">
-            {words.map(([text, count], index) => (
-              <li key={index}>
-                {text} ({count})
-              </li>
-            ))}
-          </ul>
+            {/* Input field for user to enter word */}
+            <input 
+                type="text" 
+                value={word} 
+                onChange={(e) => setWord(e.target.value)} 
+                onKeyPress={handleKeyPress} 
+                className="border p-2 mt-4 w-full max-w-md rounded dark:border-gray-800" 
+                placeholder="Type here..." 
+            />
+            
+            {/* Submit button to add word to Firestore */}
+            <button 
+                onClick={submitWord} 
+                className="bg-soothing-lavender text-white px-4 py-2 mt-2 rounded"
+            >Submit</button>
+            
+            {/* WordCloud canvas where words will be displayed */}
+            <canvas id="wordCloud" className="mt-4 w-full h-64 text-dark border dark:border-gray-800"></canvas>
         </div>
-      </div>
-    </div>
-  );
+    );
 }

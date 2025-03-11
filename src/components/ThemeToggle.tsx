@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import '../styles/globals.css'
 
 
 export default function ThemeToggle() {
