@@ -6,6 +6,7 @@ import firebaseConfig from '../lib/firebase';
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import Footer from "./ui/Footer";
+import WordCounts from "./WordCounts";
 
 // Initialize Firebase app and Firestore database
 const app = initializeApp(firebaseConfig);
@@ -60,7 +61,7 @@ export default function WordCloudApp() {
 
     return (
         <div className="min-h-screen p-4 flex">
-            <div className="flex-1 flex flex-col items-center bg-gray-50 dark:bg-midnight-blue text-gray-900 dark:text-gray-200">
+            <div className="flex-1 flex flex-col items-center bg-gray-50 dark:bg-midnight-blue text-gray-900 dark:text-gray-200 me-8">
                 <div className="text-center w-full max-w-md mb-6">
                     
                     <button
@@ -95,14 +96,14 @@ export default function WordCloudApp() {
                 <Footer/>
             </div>
 
-            <aside className="w-64 p-4 m-8 bg-gray-100 dark:bg-gray-800 border-l dark:border-gray-700">
-                <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-200">Inputted Words</h2>
-                <ul className="list-disc list-inside">
-                    {inputtedWords.map((word, index) => (
-                        <li key={index} className="text-gray-700 dark:text-gray-300">{word}</li>
-                    ))}
-                </ul>
-            </aside>
+            <aside className="w-64 p-4 bg-gray-100 dark:bg-gray-800 border-l dark:border-gray-700">
+            <ul className="list-disc list-inside">
+                {inputtedWords.map((word, index) => (
+                    <li key={index} className="text-gray-700 dark:text-gray-300">{word}</li>
+                ))}
+            </ul>
+            <WordCounts/>
+        </aside>
         </div>
     );
 }
