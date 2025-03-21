@@ -1,4 +1,4 @@
-# 🌙 Toro - the Sleep Cloud App  
+# 🌙 TorotheSleep - Word Cloud App  
 
 A **mobile-first** web app where users enter the word **"sleep"** in their local language. The app stores entries in **Firebase** and generates a **dynamic word cloud** using React and WordCloud.js.  
 
@@ -15,8 +15,8 @@ A **mobile-first** web app where users enter the word **"sleep"** in their local
 - **WordCloud.js** 🌥️  
 - **ShadCN UI + TailwindCSS** 🎨  
 
-## 📸 Screenshot  
-![WordCloud Sleep App](./screenshot.png)  
+<!-- ## 📸 Screenshot  
+![WordCloud Sleep App](./screenshot.png)   -->
 
 ## 🎯 Installation & Setup  
 1️⃣ Clone the repository:  
@@ -57,7 +57,7 @@ npm run dev
 4. Open a pull request!  
 
 ## 📜 License  
-MIT License 📄  
+[MIT License] 📄  (./LICENSE)
 
 ---
 
