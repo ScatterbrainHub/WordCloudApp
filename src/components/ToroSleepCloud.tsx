@@ -63,7 +63,7 @@ export default function WordCloudApp() {
         <div className="min-h-screen p-4 flex">
             <div className="flex-1 flex flex-col items-center bg-gray-50 dark:bg-midnight-blue text-gray-900 dark:text-gray-200 me-8">
                 <div className="text-center w-full max-w-md mb-6">
-                    
+
                     <button
                         onClick={() => setTheme(theme === "light" ? "dark" : "light")}
                         className="mt-4 px-4 py-2 rounded bg-soothing-lavender text-white"
@@ -93,17 +93,12 @@ export default function WordCloudApp() {
                 <div className="w-full max-w-md mt-8">
                     <canvas id="wordCloud" className="w-full h-[300px] border dark:border-gray-800"></canvas>
                 </div>
-                <Footer/>
+                <Footer />
             </div>
 
             <aside className="w-64 p-4 bg-gray-100 dark:bg-gray-800 border-l dark:border-gray-700">
-            <ul className="list-disc list-inside">
-                {inputtedWords.map((word, index) => (
-                    <li key={index} className="text-gray-700 dark:text-gray-300">{word}</li>
-                ))}
-            </ul>
-            <WordCounts/>
-        </aside>
+                <WordCounts />
+            </aside>
         </div>
     );
 }
