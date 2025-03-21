@@ -11,6 +11,8 @@ import Footer from "./ui/Footer";
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+export { db };
+
 export default function WordCloudApp() {
     const [word, setWord] = useState("");
     const [words, setWords] = useState<[string, number][]>([]);
@@ -93,7 +95,7 @@ export default function WordCloudApp() {
                 <Footer/>
             </div>
 
-            <aside className="w-64 p-4 m-4 bg-gray-100 dark:bg-gray-800 border-l dark:border-gray-700">
+            <aside className="w-64 p-4 m-8 bg-gray-100 dark:bg-gray-800 border-l dark:border-gray-700">
                 <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-200">Inputted Words</h2>
                 <ul className="list-disc list-inside">
                     {inputtedWords.map((word, index) => (
