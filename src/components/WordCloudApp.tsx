@@ -11,23 +11,16 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export default function WordCloudApp() {
-    // State variables
-    const [word, setWord] = useState(""); // Stores user input
-    const [words, setWords] = useState<Array<[string, number]>>([]); // Stores words from Firestore
-    const [theme, setTheme] = useState<string>(localStorage.getItem("theme") || "light"); // Manages light/dark theme
-    const [WordCloud, setWordCloud] = useState<((element: HTMLElement, options: any) => void) | null>(null); // Stores WordCloud library dynamically
+    const [word, setWord] = useState("");
+    const [words, setWords] = useState<[string, number][]>([]);
+    const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+    const [WordCloud, setWordCloud] = useState<((element: HTMLElement, options: any) => void) | null>(null);
 
-    // Effect to handle dark mode theme persistence
     useEffect(() => {
-        if (theme === "dark") {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
+        document.documentElement.classList.toggle("dark", theme === "dark");
         localStorage.setItem("theme", theme);
     }, [theme]);
 
-    // Effect to fetch words from Firestore and update state
     useEffect(() => {
         const unsubscribe = onSnapshot(collection(db, "words"), (snapshot) => {
             let wordCounts: Record<string, number> = {};
@@ -37,64 +30,60 @@ export default function WordCloudApp() {
             });
             setWords(Object.entries(wordCounts));
         });
-        return () => unsubscribe(); // Cleanup function to prevent memory leaks
+        return () => unsubscribe();
     }, []);
 
-    // Dynamically import WordCloud only in the browser (fixes SSR issues)
     useEffect(() => {
         import("wordcloud").then((mod) => {
             setWordCloud(() => mod.default);
         }).catch((err) => console.error("Failed to load WordCloud:", err));
     }, []);
 
-    // Effect to render WordCloud when words update
     useEffect(() => {
         if (WordCloud && words.length > 0) {
             WordCloud(document.getElementById("wordCloud") as HTMLElement, { list: words });
         }
     }, [WordCloud, words]);
 
-    // Function to handle word submission
     const submitWord = async () => {
-        if (word.trim()) { // Ensure input is not empty
+        if (word.trim()) {
             await addDoc(collection(db, "words"), { text: word.trim() });
-            setWord(""); // Clear input field after submission
+            setWord("");
         }
     };
 
     return (
-        <div className="flex flex-col items-center p-4 min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-200">
-            {/* Header section with title and theme toggle button */}
-            <div className="flex flex-col items-center w-full max-w-md text-center">
-                <h1 className="text-2xl font-bold">Enter 'Sleep' in Your Language</h1>
+        <div className="min-h-screen p-4 flex flex-col items-center bg-gray-50 dark:bg-midnight-blue text-gray-900 dark:text-gray-200">
+            <div className="text-center w-full max-w-md mb-6">
+                
                 <button
                     onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-                    className="mt-2 px-3 py-1 rounded bg-sleepy-moon-yellow dark:bg-midnight-blue text-gray-900 dark:text-gray-200"
+                    className="mt-4 px-4 py-2 rounded bg-soothing-lavender text-white"
                 >
                     {theme === "light" ? "🌙 Dark" : "☀️ Light"}
                 </button>
+                <h1 className="text-2xl font-bold text-sleepy-moon-yellow">Enter 'Sleep' in Your Language</h1>
             </div>
 
-            {/* Input and submit section */}
-            <div className="w-full max-w-md flex flex-col items-center gap-2 mt-4">
-                <Input 
-                    type="text" 
-                    value={word} 
-                    onChange={(e) => setWord(e.target.value)} 
+            <div className="w-full max-w-md flex flex-col gap-4">
+                <Input
+                    type="text"
+                    value={word}
+                    onChange={(e) => setWord(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && submitWord()}
-                    className="border p-2 w-full rounded dark:border-gray-800 text-center" 
-                    placeholder="Type here..." 
+                    className="p-3 rounded border dark:border-gray-800 text-center"
+                    placeholder="Type here..."
                 />
-                
-                <Button 
-                    onClick={submitWord} 
-                    className="bg-soothing-lavender text-white px-4 py-2 rounded w-full"
-                >Submit</Button>
+                <Button
+                    onClick={submitWord}
+                    className="bg-sleepy-moon-yellow text-midnight-blue px-4 py-3 rounded w-full"
+                >
+                    Submit
+                </Button>
             </div>
-            
-            {/* WordCloud canvas where words will be displayed */}
-            <div className="w-full max-w-md mt-6">
-                <canvas id="wordCloud" className="w-full h-300 border dark:border-gray-800"></canvas>
+
+            <div className="w-full max-w-md mt-8">
+                <canvas id="wordCloud" className="w-full h-[300px] border dark:border-gray-800"></canvas>
             </div>
         </div>
     );

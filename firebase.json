@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "torowordcloud",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
