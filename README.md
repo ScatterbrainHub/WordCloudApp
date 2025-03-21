@@ -1,15 +1,4 @@
-Here's a **README.md** and a **GitHub description** for your WordCloud app.  
-
----
-
-## **GitHub Description:**  
-**"A mobile-first web app where users enter the word 'sleep' in their local language, generating a dynamic word cloud using Firebase and React."**  
-
----
-
-## **README.md**
-```md
-# 🌙 WordCloud Sleep App  
+# 🌙 Toro - the Sleep Cloud App  
 
 A **mobile-first** web app where users enter the word **"sleep"** in their local language. The app stores entries in **Firebase** and generates a **dynamic word cloud** using React and WordCloud.js.  
 
@@ -81,5 +70,3 @@ MIT License 📄
 - Replace `yourusername` with your **GitHub username**.  
 - Add a screenshot in the repo (`screenshot.png`).  
 - Update Firebase config with **your credentials**.  
-
-Let me know if you need further tweaks! 🚀🔥
