@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, onSnapshot } from "firebase/firestore";
 import "../styles/globals.css";
@@ -46,7 +46,10 @@ export default function WordCloudApp() {
 
     useEffect(() => {
         if (WordCloud && words.length > 0) {
-            WordCloud(document.getElementById("wordCloud") as HTMLElement, { list: words });
+            WordCloud(document.getElementById("wordCloud") as HTMLElement, {
+                list: words,
+                weightFactor: (size) => size * 5, // Adjust this factor as needed
+            });
         }
     }, [WordCloud, words]);
 
