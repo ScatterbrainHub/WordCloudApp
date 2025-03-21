@@ -7,8 +7,8 @@
 /* Base Styles */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f4; /* Light background */
-    color: #333; /* Dark text */
+    background-color: #f4f4f4;
+    color: #333;
     line-height: 1.6;
     margin: 0;
     padding: 0;
@@ -16,8 +16,8 @@ body {
 
 /* Dark Mode Styles */
 .dark body {
-    background-color: #1E3A5F; /* Midnight Blue */
-    color: #f0f0f0; /* Light text */
+    background-color: #1E3A5F;
+    color: #f0f0f0;
 }
 
 /* Custom Color Utilities */
@@ -98,8 +98,69 @@ button {
 .rounded { border-radius: 0.5rem; }
 .text-2xl { font-size: 1.5rem; }
 .font-bold { font-weight: bold; }
+.flex-1 { flex: 1 1 0%; } /* Added flex-1 definition */
+
+/* Sidebar Styles */
+aside {
+    width: 256px; /* Adjust width as needed */
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-left: 1px solid #eee;
+    overflow-y: auto; /* Enables scrolling if content overflows */
+}
+
+.dark aside {
+    background-color: #2d2d2d; /* Dark background */
+    border-left-color: #4a4a4a; /* Dark border */
+}
+
+aside h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #333;
+}
+
+.dark aside h2 {
+    color: #f0f0f0;
+}
+
+aside ul {
+    list-style-type: disc;
+    margin-left: 1.25rem;
+}
+
+aside li {
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+.dark aside li {
+    color: #ddd;
+}
+
+/* Footer Styles */
+footer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #777;
+}
+
+.dark footer {
+    color: #bbb;
+}
+
+footer a {
+    color: #007bff; /* Link color */
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
 
 /* Responsive Adjustments (Mobile First) */
 @media (min-width: 640px) { /* Small screens and above */
-    .max-w-md { max-width: 768px; } /* Adjust max width as needed */
+    .max-w-md { max-width: 768px; }
 }
