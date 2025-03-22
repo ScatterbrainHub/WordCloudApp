@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link, useMatch } from "@tanstack/react-router";
 
-interface HeaderProps {
+interface ThemeProps {
   theme: string;
   setTheme: (theme: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ theme, setTheme }) => {
+const HeaderTheme: React.FC<ThemeProps> = ({ theme, setTheme }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleTheme = (newTheme: string) => {
@@ -23,31 +22,16 @@ const Header: React.FC<HeaderProps> = ({ theme, setTheme }) => {
 
   return (
     <header className="bg-gray-100 dark:bg-gray-800 p-4 flex justify-between items-center">
-      <nav>
-        <ul className="flex space-x-4">
-          <li>
-            <Link to="/" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/about" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100">
-              About
-            </Link>
-          </li>
-        </ul>
-      </nav>
-
       <div className="relative">
         <button
           onClick={() => setDropdownOpen(!dropdownOpen)}
-          className="px-4 py-2 rounded bg-soothing-lavender text-white"
+          className="px-4 py-2 bg-soothing-lavender text-white"
         >
           {theme === "light" ? "☀️ Light" : theme === "dark" ? "🌙 Dark" : "⚙️ System"}
         </button>
 
         {dropdownOpen && (
-          <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 rounded-md shadow-lg overflow-hidden">
+          <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 shadow-lg overflow-hidden">
             <button
               onClick={() => toggleTheme("light")}
               className="block w-full text-left px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600"
@@ -73,4 +57,4 @@ const Header: React.FC<HeaderProps> = ({ theme, setTheme }) => {
   );
 };
 
-export default Header;
+export default HeaderTheme;

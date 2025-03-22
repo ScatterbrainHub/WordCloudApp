@@ -65,12 +65,6 @@ export default function WordCloudApp() {
         <div className="min-h-screen p-4 flex flex-col sm:flex-row"> {/* Stack on small screens, row on larger */}
             <div className="flex-1 flex flex-col items-center bg-gray-50 dark:bg-midnight-blue text-gray-900 dark:text-gray-200"> {/* Removed me-8 */}
                 <div className="text-center w-full max-w-md mb-6">
-                    <button
-                        onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-                        className="mt-4 px-4 py-2 rounded bg-soothing-lavender text-white"
-                    >
-                        {theme === "light" ? "🌙 Dark" : "☀️ Light"}
-                    </button>
                     <h1 className="text-2xl font-bold text-sleepy-moon-yellow">Enter 'Sleep' in Your Language</h1>
                 </div>
 
