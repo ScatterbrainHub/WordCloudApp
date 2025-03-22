@@ -5,7 +5,7 @@ export default function Homepage() {
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="flex flex-col gap-6">
 
-        <WordCloudApp />;
+        <WordCloudApp />
       </div>
     </div>
   )
