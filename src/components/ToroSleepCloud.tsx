@@ -5,7 +5,6 @@ import "../styles/globals.css";
 import firebaseConfig from '../lib/firebase';
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import Footer from "./ui/Footer";
 import WordCounts from "./WordCounts";
 
 // Initialize Firebase app and Firestore database
@@ -63,10 +62,9 @@ export default function WordCloudApp() {
     };
 
     return (
-        <div className="min-h-screen p-4 flex">
-            <div className="flex-1 flex flex-col items-center bg-gray-50 dark:bg-midnight-blue text-gray-900 dark:text-gray-200 me-8">
+        <div className="min-h-screen p-4 flex flex-col sm:flex-row"> {/* Stack on small screens, row on larger */}
+            <div className="flex-1 flex flex-col items-center bg-gray-50 dark:bg-midnight-blue text-gray-900 dark:text-gray-200"> {/* Removed me-8 */}
                 <div className="text-center w-full max-w-md mb-6">
-
                     <button
                         onClick={() => setTheme(theme === "light" ? "dark" : "light")}
                         className="mt-4 px-4 py-2 rounded bg-soothing-lavender text-white"
@@ -92,16 +90,16 @@ export default function WordCloudApp() {
                         Submit
                     </Button>
                 </div>
+                
 
                 <div className="w-full max-w-md mt-8">
                     <canvas id="wordCloud" className="w-full h-[300px] border dark:border-gray-800"></canvas>
-                </div>
-                <Footer />
+                </div>                
             </div>
+            <div className="w-full max-w-md flex flex-col gap-4">
+                 <WordCounts />
+                </div>
 
-            <aside className="w-64 p-4 bg-gray-100 dark:bg-gray-800 border-l dark:border-gray-700">
-                <WordCounts />
-            </aside>
         </div>
     );
 }

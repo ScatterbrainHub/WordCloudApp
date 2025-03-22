@@ -1,6 +1,6 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { RootRoute, Route, NotFoundRoute } from "@tanstack/react-router";
-import HomePage from "../pages/Homepage";
+import HomePage from "../routes/Home";
 
 // Define the root route
 const rootRoute = new RootRoute();
@@ -11,6 +11,8 @@ const homeRoute = new Route({
   path: "/",
   component: HomePage,
 });
+
+
 
 // Define the Not Found route (this fixes your issue)
 const notFoundRoute = new NotFoundRoute({
