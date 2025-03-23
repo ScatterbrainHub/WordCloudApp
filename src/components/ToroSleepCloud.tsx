@@ -16,14 +16,8 @@ export { db };
 export default function WordCloudApp() {
     const [word, setWord] = useState("");
     const [words, setWords] = useState<[string, number][]>([]);
-    const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
     const [WordCloud, setWordCloud] = useState<((element: HTMLElement, options: any) => void) | null>(null);
     const [inputtedWords, setInputtedWords] = useState<string[]>([]);
-
-    useEffect(() => {
-        document.documentElement.classList.toggle("dark", theme === "dark");
-        localStorage.setItem("theme", theme);
-    }, [theme]);
 
     useEffect(() => {
         const unsubscribe = onSnapshot(collection(db, "words"), (snapshot) => {

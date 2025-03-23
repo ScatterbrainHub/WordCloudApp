@@ -1,17 +1,16 @@
 import { createRoute, createRouter, RouterProvider } from "@tanstack/react-router";
-import { RootRoute, Route, NotFoundRoute } from "@tanstack/react-router";
+import { RootRoute } from "@tanstack/react-router";
 import NotFound from "../routes/404";
-import RouteComponent from "../routes";
 
 // Define the root route
 const rootRoute = new RootRoute();
 
 // Define the home route
-const index = new Route({
-  getParentRoute: () => rootRoute,
-  path: "/",
-  component: RouteComponent,
-});
+// const index = new Route({
+//   getParentRoute: () => rootRoute,
+//   path: "/",
+//   component: RouteComponent,
+// });
 
 
 
