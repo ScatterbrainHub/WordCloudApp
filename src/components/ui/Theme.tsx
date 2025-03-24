@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 interface ThemeProps {
   theme: string;
@@ -6,12 +6,7 @@ interface ThemeProps {
 }
 
 const HeaderTheme: React.FC<ThemeProps> = ({ theme, setTheme }) => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const toggleTheme = (newTheme: string) => {
-    setTheme(newTheme);
-    setDropdownOpen(false); // Close dropdown after selection
-  };
 
   useEffect(() => {
     if (theme === "system") {

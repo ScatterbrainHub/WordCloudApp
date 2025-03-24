@@ -167,3 +167,11 @@ footer a:hover {
 @media (min-width: 640px) { /* Small screens and above */
     .max-w-md { max-width: 768px; }
 }
+
+Link {
+    text-decoration: none;
+    color: #2d2d2d;
+}
+.dark Link {
+    color: #ccc;
+}

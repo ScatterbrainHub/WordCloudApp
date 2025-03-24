@@ -11,15 +11,15 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as AboutImport } from './routes/About'
+import { Route as AboutImport } from './routes/about'
 import { Route as R404Import } from './routes/404'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
 
 const AboutRoute = AboutImport.update({
-  id: '/About',
-  path: '/About',
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -53,10 +53,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof R404Import
       parentRoute: typeof rootRoute
     }
-    '/About': {
-      id: '/About'
-      path: '/About'
-      fullPath: '/About'
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
@@ -68,28 +68,28 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/404': typeof R404Route
-  '/About': typeof AboutRoute
+  '/about': typeof AboutRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/404': typeof R404Route
-  '/About': typeof AboutRoute
+  '/about': typeof AboutRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/404': typeof R404Route
-  '/About': typeof AboutRoute
+  '/about': typeof AboutRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/404' | '/About'
+  fullPaths: '/' | '/404' | '/about'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/404' | '/About'
-  id: '__root__' | '/' | '/404' | '/About'
+  to: '/' | '/404' | '/about'
+  id: '__root__' | '/' | '/404' | '/about'
   fileRoutesById: FileRoutesById
 }
 
@@ -117,7 +117,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/404",
-        "/About"
+        "/about"
       ]
     },
     "/": {
@@ -126,8 +126,8 @@ export const routeTree = rootRoute
     "/404": {
       "filePath": "404.tsx"
     },
-    "/About": {
-      "filePath": "About.tsx"
+    "/about": {
+      "filePath": "about.tsx"
     }
   }
 }
